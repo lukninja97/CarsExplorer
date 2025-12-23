@@ -1,10 +1,11 @@
-package com.lukninja.carsexplorer
+package com.lukninja.carsexplorer.view
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.lukninja.carsexplorer.R
 
 class MainActivity : AppCompatActivity() {
 
