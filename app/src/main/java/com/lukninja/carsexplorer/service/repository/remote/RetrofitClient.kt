@@ -1,5 +1,6 @@
 package com.lukninja.carsexplorer.service.repository.remote
 
+
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -17,7 +18,7 @@ class RetrofitClient private constructor() {
 
             if (!::retrofit.isInitialized) {
                 retrofit = Retrofit.Builder()
-                    .baseUrl("https://api.api-ninjas.com/")
+                    .baseUrl("https://vpic.nhtsa.dot.gov/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient)
                     .build()
