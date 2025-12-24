@@ -9,5 +9,15 @@
         android:id="@+id/makesListFragment"
         android:name="com.lukninja.carsexplorer.view.MakesListFragment"
         android:label="Marcas"
-        tools:layout="@layout/fragment_makes_list"/>
+        tools:layout="@layout/fragment_makes_list">
+        <action
+            android:id="@+id/action_makesListFragment_to_modelsListFragment"
+            app:destination="@id/modelsListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/modelsListFragment"
+        android:name="com.lukninja.carsexplorer.view.ModelsListFragment"
+        android:label="Modelos"
+        tools:layout="@layout/fragment_models_list" />
 </navigation>
