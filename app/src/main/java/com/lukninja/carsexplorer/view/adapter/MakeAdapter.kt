@@ -5,11 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lukninja.carsexplorer.databinding.ListItemMakeBinding
 import com.lukninja.carsexplorer.service.model.Make
-import com.lukninja.carsexplorer.view.placeholder.PlaceholderContent
 
 
 class MakeAdapter(
-    private val values: List<PlaceholderContent.PlaceholderItem>,
+    private val values: List<Make>,
     private val clickListListener: (Make) -> Unit
 ) : RecyclerView.Adapter<MakeAdapter.MakeViewHolder>() {
 
@@ -19,6 +18,10 @@ class MakeAdapter(
         RecyclerView.ViewHolder(binding.root) {
             fun bind(make: Make, clickListListener: (Make) -> Unit) {
                 binding.tvMake.text = make.name
+
+                binding.root.setOnClickListener {
+                    clickListListener(make)
+                }
             }
         }
 

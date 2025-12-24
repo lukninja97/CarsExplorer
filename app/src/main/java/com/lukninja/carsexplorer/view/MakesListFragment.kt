@@ -1,14 +1,15 @@
 package com.lukninja.carsexplorer.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lukninja.carsexplorer.R
 import com.lukninja.carsexplorer.databinding.FragmentMakesListBinding
 import com.lukninja.carsexplorer.service.model.Make
 import com.lukninja.carsexplorer.service.util.ApiResult
@@ -36,8 +37,11 @@ class MakesListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = MakeAdapter(mutableListOf()) {
-            //TODO Click item list
+        adapter = MakeAdapter(mutableListOf()) { make ->
+            val makeBundle = Bundle()
+            makeBundle.putString("make", make.name)
+            arguments = makeBundle
+            findNavController().navigate(R.id.modelsListFragment, arguments)
         }
 
         setupRecycler()

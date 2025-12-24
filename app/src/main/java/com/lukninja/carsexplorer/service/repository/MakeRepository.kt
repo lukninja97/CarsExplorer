@@ -1,14 +1,12 @@
 package com.lukninja.carsexplorer.service.repository
 
-import android.util.Log
+
 import com.lukninja.carsexplorer.service.model.Make
 import com.lukninja.carsexplorer.service.repository.remote.MakeService
 import com.lukninja.carsexplorer.service.repository.remote.RetrofitClient
 import com.lukninja.carsexplorer.service.util.ApiResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.logging.HttpLoggingInterceptor
-import java.util.logging.Logger
 
 class MakeRepository {
 
