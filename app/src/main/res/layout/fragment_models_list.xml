@@ -27,7 +27,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/tvMake"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/ic_make"/>
+                android:src="@drawable/ic_manufacturer"/>
 
             <TextView
                 android:id="@+id/tvMake"

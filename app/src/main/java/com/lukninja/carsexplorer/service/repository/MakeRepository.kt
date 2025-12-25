@@ -15,7 +15,7 @@ class MakeRepository {
     suspend fun getMakes(): ApiResult<List<Make>> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = mRemote.getMakes()
+                val response = mRemote.getMakesForVehicleType()
 
                 ApiResult.Success(response.body()?.makes ?: listOf())
             } catch (e: Exception) {

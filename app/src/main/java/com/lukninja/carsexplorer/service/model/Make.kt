@@ -3,8 +3,8 @@ package com.lukninja.carsexplorer.service.model
 import com.google.gson.annotations.SerializedName
 
 data class Make(
-    @SerializedName("Make_ID")
+    @SerializedName("MakeId")
     val id: Int,
-    @SerializedName("Make_Name")
+    @SerializedName("MakeName")
     val name: String
 )

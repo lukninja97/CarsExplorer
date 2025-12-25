@@ -41,7 +41,7 @@ class MakesListFragment : Fragment() {
             val makeBundle = Bundle()
             makeBundle.putString("make", make.name)
             arguments = makeBundle
-            findNavController().navigate(R.id.modelsListFragment, arguments)
+            findNavController().navigate(R.id.manufacturesListFragment, arguments)
         }
 
         setupRecycler()
