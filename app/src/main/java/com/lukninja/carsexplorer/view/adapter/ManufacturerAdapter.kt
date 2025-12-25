@@ -20,6 +20,10 @@ class ManufacturerAdapter(
                 binding.tvName.text = manufacturer.manufacturerCommonName ?: manufacturer.manufacturerName
                 binding.tvLocalization.text = manufacturer.city
                 binding.tvCountry.text = manufacturer.country
+
+                binding.root.setOnClickListener {
+                    clickListListener(manufacturer)
+                }
             }
         }
 

@@ -1,6 +1,7 @@
 package com.lukninja.carsexplorer.service.repository
 
 
+import com.lukninja.carsexplorer.service.model.Manufacturer
 import com.lukninja.carsexplorer.service.model.Manufactures
 import com.lukninja.carsexplorer.service.model.Models
 import com.lukninja.carsexplorer.service.repository.remote.ManufacturerService
@@ -24,4 +25,20 @@ class ManufacturerRepository {
             }
         }
     }
+
+    suspend fun getManufacturer(make: String, manufacturerId: Int): ApiResult<Manufacturer> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = mRemote.getManufactures(make)
+
+                val manufacturer = response.body()?.manufactures?.find { it.manufacturerId == manufacturerId }
+
+                ApiResult.Success(manufacturer ?: Manufacturer())
+            } catch (e: Exception) {
+                ApiResult.Error("Falha ao carregar fábricas", e)
+            }
+        }
+    }
+
+
 }

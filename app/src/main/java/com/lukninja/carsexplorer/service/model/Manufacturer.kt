@@ -4,31 +4,33 @@ import com.google.gson.annotations.SerializedName
 
 data class Manufacturer(
     @SerializedName("Address")
-    val address: String,
+    val address: String? = null,
     @SerializedName("City")
-    val city: String,
+    val city: String? = null,
     @SerializedName("ContactEmail")
-    val contactEmail: String,
+    val contactEmail: String? = null,
     @SerializedName("ContactPhone")
-    val contactPhone: String,
+    val contactPhone: String? = null,
     @SerializedName("Country")
-    val country: String,
+    val country: String? = null,
     @SerializedName("EquipmentItems")
-    val equipmentItems: List<Any>,
+    val equipmentItems: List<Any>? = null,
+    @SerializedName("Mfr_ID")
+    val manufacturerId: Int? = null,
     @SerializedName("Mfr_CommonName")
-    val manufacturerCommonName: String?,
+    val manufacturerCommonName: String?? = null,
     @SerializedName("Mfr_Name")
-    val manufacturerName: String,
+    val manufacturerName: String? = null,
     @SerializedName("PrincipalFirstName")
-    val principalFirstName: String,
+    val principalFirstName: String? = null,
     @SerializedName("PrincipalPosition")
-    val principalPosition: String,
+    val principalPosition: String? = null,
     @SerializedName("StateProvince")
-    val stateProvince: String,
+    val stateProvince: String? = null,
     @SerializedName("SubmittedName")
-    val submittedName: String,
+    val submittedName: String? = null,
     @SerializedName("SubmittedPosition")
-    val submittedPosition: String,
+    val submittedPosition: String? = null,
     @SerializedName("VehicleTypes")
-    val vehicleTypes: List<VehicleType>,
+    val vehicleTypes: List<VehicleType>? = null,
 )

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.lukninja.carsexplorer.service.model.Manufacturer
 import com.lukninja.carsexplorer.service.model.Manufactures
 import com.lukninja.carsexplorer.service.model.Models
 import com.lukninja.carsexplorer.service.repository.ManufacturerRepository
@@ -17,6 +18,9 @@ class ManufacturerViewModel : ViewModel() {
     private val mManufacturerList = MutableLiveData<ApiResult<Manufactures>>()
     val manufacturerList: LiveData<ApiResult<Manufactures>> = mManufacturerList
 
+    private val mManufacturer = MutableLiveData<ApiResult<Manufacturer>>()
+    val manufacturer: LiveData<ApiResult<Manufacturer>> = mManufacturer
+
     fun loadManufactures(make: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -27,4 +31,16 @@ class ManufacturerViewModel : ViewModel() {
             }
         }
     }
+
+    fun getManufacturer(make: String, manufacturerId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                mManufacturer.postValue(ApiResult.Loading)
+                mManufacturer.postValue(repository.getManufacturer(make, manufacturerId))
+            } catch (e: Exception){
+                mManufacturer.postValue(ApiResult.Error("Falha ao carregar os dados", e))
+            }
+        }
+    }
+
 }

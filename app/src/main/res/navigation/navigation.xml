@@ -21,4 +21,9 @@
         android:name="com.lukninja.carsexplorer.view.ManufacturesListFragment"
         android:label="Fabricantes"
         tools:layout="@layout/fragment_manufactures_list" />
+    <fragment
+        android:id="@+id/manufacturerFragment"
+        android:name="com.lukninja.carsexplorer.view.ManufacturerFragment"
+        android:label="Fabricante"
+        tools:layout="@layout/fragment_manufacturer" />
 </navigation>
