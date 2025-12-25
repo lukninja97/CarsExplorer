@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lukninja.carsexplorer.R
 import com.lukninja.carsexplorer.databinding.FragmentManufacturesListBinding
 import com.lukninja.carsexplorer.service.model.Manufactures
 import com.lukninja.carsexplorer.service.util.ApiResult
@@ -44,8 +46,13 @@ class ManufacturesListFragment : Fragment() {
             viewModel.loadManufactures(make)
         }
 
-        adapter = ManufacturerAdapter(mutableListOf()) {
-            //TODO Click item list
+        adapter = ManufacturerAdapter(mutableListOf()) { manufacturer ->
+            Log.e("manufacturer", manufacturer.toString())
+            val makeBundle = Bundle()
+            makeBundle.putInt("manufacturerId", manufacturer.manufacturerId ?: 0)
+            makeBundle.putString("make", make)
+            arguments = makeBundle
+            findNavController().navigate(R.id.manufacturerFragment, arguments)
         }
 
         setupRecycler()
