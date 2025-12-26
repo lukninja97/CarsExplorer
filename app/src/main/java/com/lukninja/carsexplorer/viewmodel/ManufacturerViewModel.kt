@@ -4,22 +4,21 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lukninja.carsexplorer.service.model.entity.ManufacturerEntity
+import com.lukninja.carsexplorer.service.repository.MakeRepository
 import com.lukninja.carsexplorer.service.repository.ManufacturerRepository
-import com.lukninja.carsexplorer.service.repository.local.DatabaseProvider
 import com.lukninja.carsexplorer.service.util.ApiResult
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ManufacturerViewModel(application: Application) : AndroidViewModel(application) {
-
+@HiltViewModel
+class ManufacturerViewModel @Inject constructor(
     private val repository: ManufacturerRepository
-
-    init {
-        val db = DatabaseProvider.getDatabase(application.applicationContext)
-        repository = ManufacturerRepository(db.ManufacturerDao())
-    }
+) : ViewModel() {
 
     private val mManufacturerList = MutableLiveData<ApiResult<List<ManufacturerEntity>>>()
     val manufacturerList: LiveData<ApiResult<List<ManufacturerEntity>>> = mManufacturerList
@@ -32,7 +31,7 @@ class ManufacturerViewModel(application: Application) : AndroidViewModel(applica
             try {
                 mManufacturerList.postValue(ApiResult.Loading)
                 mManufacturerList.postValue(repository.getManufactures(make))
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 mManufacturerList.postValue(ApiResult.Error("Falha ao carregar os dados", e))
             }
         }
@@ -43,7 +42,7 @@ class ManufacturerViewModel(application: Application) : AndroidViewModel(applica
             try {
                 mManufacturer.postValue(ApiResult.Loading)
                 mManufacturer.postValue(repository.getManufacturer(manufacturerId))
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 mManufacturer.postValue(ApiResult.Error("Falha ao carregar o dado", e))
             }
         }

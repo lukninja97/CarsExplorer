@@ -15,7 +15,7 @@ import com.lukninja.carsexplorer.service.model.entity.ModelEntity
     version = 1
 )
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun MakeDao(): MakeDao
-    abstract fun ManufacturerDao(): ManufacturerDao
-    abstract fun ModelDao(): ModelDao
+    abstract fun makeDao(): MakeDao
+    abstract fun manufacturerDao(): ManufacturerDao
+    abstract fun modelDao(): ModelDao
 }

@@ -2,26 +2,24 @@ package com.lukninja.carsexplorer.service.repository
 
 
 import android.util.Log
-import com.lukninja.carsexplorer.service.model.dto.MakeDto
 import com.lukninja.carsexplorer.service.model.dto.toEntity
 import com.lukninja.carsexplorer.service.model.entity.MakeEntity
-import com.lukninja.carsexplorer.service.repository.local.DatabaseProvider
 import com.lukninja.carsexplorer.service.repository.local.MakeDao
-import com.lukninja.carsexplorer.service.repository.remote.MakeService
-import com.lukninja.carsexplorer.service.repository.remote.RetrofitClient
+import com.lukninja.carsexplorer.service.repository.remote.CarsExplorerApi
 import com.lukninja.carsexplorer.service.util.ApiResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class MakeRepository(private val makeDao: MakeDao) {
-
-    private val mRemote = RetrofitClient.createService(MakeService::class.java)
-
+class MakeRepository @Inject constructor (
+    private val api: CarsExplorerApi,
+    private val makeDao: MakeDao,
+) {
 
     suspend fun getMakes(): ApiResult<List<MakeEntity>> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = mRemote.getMakesForVehicleType().body()?.makes
+                val response = api.getMakesForVehicleType().body()?.makes
 
                 val entities = response?.map {
                     it.toEntity(it.id)

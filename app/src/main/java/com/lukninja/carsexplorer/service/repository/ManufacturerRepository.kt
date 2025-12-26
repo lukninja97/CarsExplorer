@@ -6,19 +6,21 @@ import com.lukninja.carsexplorer.service.model.dto.ManufacturerDto
 import com.lukninja.carsexplorer.service.model.dto.toEntity
 import com.lukninja.carsexplorer.service.model.entity.ManufacturerEntity
 import com.lukninja.carsexplorer.service.repository.local.ManufacturerDao
-import com.lukninja.carsexplorer.service.repository.remote.ManufacturerService
-import com.lukninja.carsexplorer.service.repository.remote.RetrofitClient
+import com.lukninja.carsexplorer.service.repository.remote.CarsExplorerApi
 import com.lukninja.carsexplorer.service.util.ApiResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class ManufacturerRepository(private val manufacturerDao: ManufacturerDao)  {
-    private val mRemote = RetrofitClient.createService(ManufacturerService::class.java)
+class ManufacturerRepository @Inject constructor(
+    private val api: CarsExplorerApi,
+    private val manufacturerDao: ManufacturerDao
+) {
 
     suspend fun getManufactures(make: String): ApiResult<List<ManufacturerEntity>> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = mRemote.getManufactures(make).body()?.manufactures
+                val response = api.getManufactures(make).body()?.manufactures
 
                 val entities = response?.map {
                     it.toEntity(it.manufacturerId, make)

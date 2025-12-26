@@ -8,19 +8,21 @@ import com.lukninja.carsexplorer.service.model.dto.toEntity
 import com.lukninja.carsexplorer.service.model.entity.ModelEntity
 import com.lukninja.carsexplorer.service.repository.local.ManufacturerDao
 import com.lukninja.carsexplorer.service.repository.local.ModelDao
-import com.lukninja.carsexplorer.service.repository.remote.ModelService
-import com.lukninja.carsexplorer.service.repository.remote.RetrofitClient
+import com.lukninja.carsexplorer.service.repository.remote.CarsExplorerApi
 import com.lukninja.carsexplorer.service.util.ApiResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class ModelRepository(private val modelDao: ModelDao) {
-    private val mRemote = RetrofitClient.createService(ModelService::class.java)
+class ModelRepository @Inject constructor (
+    private val api: CarsExplorerApi,
+    private val modelDao: ModelDao
+) {
 
     suspend fun getModels(make: String): ApiResult<List<ModelEntity>> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = mRemote.getModels(make).body()?.models
+                val response = api.getModels(make).body()?.models
 
                 val entities = response?.map {
                     it.toEntity(it.id)

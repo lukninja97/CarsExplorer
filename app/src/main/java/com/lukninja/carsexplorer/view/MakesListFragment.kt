@@ -17,9 +17,10 @@ import com.lukninja.carsexplorer.service.model.entity.MakeEntity
 import com.lukninja.carsexplorer.service.util.ApiResult
 import com.lukninja.carsexplorer.view.adapter.MakeAdapter
 import com.lukninja.carsexplorer.viewmodel.MakeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.getValue
 
-
+@AndroidEntryPoint
 class MakesListFragment : Fragment() {
 
     private var _binding: FragmentMakesListBinding? = null

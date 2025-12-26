@@ -6,22 +6,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lukninja.carsexplorer.service.model.dto.ModelsDto
 import com.lukninja.carsexplorer.service.model.entity.ModelEntity
-import com.lukninja.carsexplorer.service.repository.ManufacturerRepository
+import com.lukninja.carsexplorer.service.repository.MakeRepository
 import com.lukninja.carsexplorer.service.repository.ModelRepository
-import com.lukninja.carsexplorer.service.repository.local.DatabaseProvider
 import com.lukninja.carsexplorer.service.util.ApiResult
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ModelViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class ModelViewModel@Inject constructor (
     private val repository: ModelRepository
-
-    init {
-        val db = DatabaseProvider.getDatabase(application.applicationContext)
-        repository = ModelRepository(db.ModelDao())
-    }
+) : ViewModel() {
 
     private val mModelList = MutableLiveData<ApiResult<List<ModelEntity>>>()
     val modelList: LiveData<ApiResult<List<ModelEntity>>> = mModelList

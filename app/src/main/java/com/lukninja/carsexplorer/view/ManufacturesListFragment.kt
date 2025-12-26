@@ -17,9 +17,11 @@ import com.lukninja.carsexplorer.service.model.entity.ManufacturerEntity
 import com.lukninja.carsexplorer.service.util.ApiResult
 import com.lukninja.carsexplorer.view.adapter.ManufacturerAdapter
 import com.lukninja.carsexplorer.viewmodel.ManufacturerViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.getValue
 
 
+@AndroidEntryPoint
 class ManufacturesListFragment : Fragment() {
 
     private var _binding: FragmentManufacturesListBinding? = null

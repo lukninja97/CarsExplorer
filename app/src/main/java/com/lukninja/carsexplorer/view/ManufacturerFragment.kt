@@ -18,9 +18,10 @@ import com.lukninja.carsexplorer.service.util.ApiResult
 import com.lukninja.carsexplorer.view.adapter.ModelAdapter
 import com.lukninja.carsexplorer.viewmodel.ManufacturerViewModel
 import com.lukninja.carsexplorer.viewmodel.ModelViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.getValue
 
-
+@AndroidEntryPoint
 class ManufacturerFragment : Fragment() {
 
     private var _binding: FragmentManufacturerBinding? = null
@@ -93,17 +94,10 @@ class ManufacturerFragment : Fragment() {
 
     private fun showLoading() {
         binding.progress.visibility = View.VISIBLE
-//        binding.tvManufacturer.visibility = View.INVISIBLE
-//        binding.cardManufacturer.visibility = View.INVISIBLE
-//        binding.tvModels.visibility = View.INVISIBLE
-//        binding.cardModels.visibility = View.INVISIBLE
     }
 
     private fun hideLoading() {
         binding.progress.visibility = View.INVISIBLE
-//        binding.tvManufacturer.visibility = View.VISIBLE
-//        binding.cardManufacturer.visibility = View.VISIBLE
-//        binding.tvModels.visibility = View.VISIBLE
         binding.cardModels.visibility = View.VISIBLE
         binding.msgEmpty.visibility = View.GONE
     }
