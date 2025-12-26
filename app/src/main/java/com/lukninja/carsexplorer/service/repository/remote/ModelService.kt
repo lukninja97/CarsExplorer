@@ -1,7 +1,7 @@
 package com.lukninja.carsexplorer.service.repository.remote
 
 
-import com.lukninja.carsexplorer.service.model.Models
+import com.lukninja.carsexplorer.service.model.dto.ModelsDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -9,6 +9,6 @@ import retrofit2.http.Path
 interface ModelService {
 
     @GET("api/vehicles/getmodelsformake/{make}?format=json")
-    suspend fun getModels(@Path("make") make: String): Response<Models>
+    suspend fun getModels(@Path("make") make: String): Response<ModelsDto>
 
 }

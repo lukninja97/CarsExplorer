@@ -4,19 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lukninja.carsexplorer.databinding.ListItemModelBinding
-import com.lukninja.carsexplorer.service.model.Model
+import com.lukninja.carsexplorer.service.model.dto.ModelDto
+import com.lukninja.carsexplorer.service.model.entity.ModelEntity
 
 
-class ModelAdapter(
-    private val values: List<Model>,
-    private val clickListListener: (Model) -> Unit
-) : RecyclerView.Adapter<ModelAdapter.ModelViewHolder>() {
+class ModelAdapter() : RecyclerView.Adapter<ModelAdapter.ModelViewHolder>() {
 
-    private var models: List<Model> = listOf()
+    private var models: List<ModelEntity> = listOf()
 
     class ModelViewHolder(private val binding: ListItemModelBinding):
         RecyclerView.ViewHolder(binding.root) {
-            fun bind(model: Model, clickListListener: (Model) -> Unit) {
+            fun bind(model: ModelEntity) {
                 binding.tvModel.text = model.name
             }
         }
@@ -28,12 +26,12 @@ class ModelAdapter(
     }
 
     override fun onBindViewHolder(holder: ModelViewHolder, position: Int) {
-        holder.bind(models[position], clickListListener)
+        holder.bind(models[position])
     }
 
     override fun getItemCount(): Int = models.count()
 
-    fun updateModels(list: List<Model>){
+    fun updateModels(list: List<ModelEntity>){
         models = list
         notifyDataSetChanged()
     }
