@@ -21,9 +21,9 @@ class MakeRepository(private val makeDao: MakeDao) {
     suspend fun getMakes(): ApiResult<List<MakeEntity>> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = mRemote.getMakesForVehicleType()
+                val response = mRemote.getMakesForVehicleType().body()?.makes
 
-                val entities = response.body()?.makes?.map {
+                val entities = response?.map {
                     it.toEntity(it.id)
                 } ?: run {
                     listOf()

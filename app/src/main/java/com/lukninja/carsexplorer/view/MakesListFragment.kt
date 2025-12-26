@@ -1,17 +1,18 @@
 package com.lukninja.carsexplorer.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lukninja.carsexplorer.R
 import com.lukninja.carsexplorer.databinding.FragmentMakesListBinding
-import com.lukninja.carsexplorer.service.model.dto.MakeDto
 import com.lukninja.carsexplorer.service.model.entity.MakeEntity
 import com.lukninja.carsexplorer.service.util.ApiResult
 import com.lukninja.carsexplorer.view.adapter.MakeAdapter
@@ -67,7 +68,7 @@ class MakesListFragment : Fragment() {
 
                 is ApiResult.Success -> showMakes(it.data)
 
-                is ApiResult.Error -> showError(it.message)
+                is ApiResult.Error -> showError(it.message, it.throwable)
             }
         }
     }
@@ -101,8 +102,10 @@ class MakesListFragment : Fragment() {
 //        binding.tvError.visibility = View.GONE
     }
 
-    private fun showError(msg: String) {
-        print(msg)
+    private fun showError(msg: String, e: Throwable?) {
+        Log.e("erro", msg, e)
+        binding.progress.visibility = View.INVISIBLE
+        Toast.makeText(requireContext(), "Sem Marcas, tente novamente com uma conexão de internet", Toast.LENGTH_SHORT).show()
     }
 
 }
