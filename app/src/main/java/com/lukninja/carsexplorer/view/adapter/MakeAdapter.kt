@@ -4,19 +4,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lukninja.carsexplorer.databinding.ListItemMakeBinding
-import com.lukninja.carsexplorer.service.model.Make
+import com.lukninja.carsexplorer.service.model.entity.MakeEntity
 
 
 class MakeAdapter(
-    private val values: List<Make>,
-    private val clickListListener: (Make) -> Unit
+    private val clickListListener: (MakeEntity) -> Unit
 ) : RecyclerView.Adapter<MakeAdapter.MakeViewHolder>() {
 
-    private var makes: List<Make> = listOf()
+    private var makes: List<MakeEntity> = listOf()
 
     class MakeViewHolder(private val binding: ListItemMakeBinding):
         RecyclerView.ViewHolder(binding.root) {
-            fun bind(make: Make, clickListListener: (Make) -> Unit) {
+            fun bind(make: MakeEntity, clickListListener: (MakeEntity) -> Unit) {
                 binding.tvMake.text = make.name
 
                 binding.root.setOnClickListener {
@@ -37,7 +36,7 @@ class MakeAdapter(
 
     override fun getItemCount(): Int = makes.count()
 
-    fun updateMakes(list: List<Make>){
+    fun updateMakes(list: List<MakeEntity>){
         makes = list
         notifyDataSetChanged()
     }

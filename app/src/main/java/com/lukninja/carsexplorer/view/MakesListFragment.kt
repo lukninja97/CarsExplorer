@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lukninja.carsexplorer.R
 import com.lukninja.carsexplorer.databinding.FragmentMakesListBinding
-import com.lukninja.carsexplorer.service.model.Make
+import com.lukninja.carsexplorer.service.model.dto.MakeDto
+import com.lukninja.carsexplorer.service.model.entity.MakeEntity
 import com.lukninja.carsexplorer.service.util.ApiResult
 import com.lukninja.carsexplorer.view.adapter.MakeAdapter
 import com.lukninja.carsexplorer.viewmodel.MakeViewModel
@@ -37,7 +38,7 @@ class MakesListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = MakeAdapter(mutableListOf()) { make ->
+        adapter = MakeAdapter { make ->
             val makeBundle = Bundle()
             makeBundle.putString("make", make.name)
             arguments = makeBundle
@@ -91,7 +92,7 @@ class MakesListFragment : Fragment() {
         binding.rvMakes.visibility = View.INVISIBLE
     }
 
-    private fun showMakes(makes: List<Make>) {
+    private fun showMakes(makes: List<MakeEntity>) {
         adapter.updateMakes(makes)
         binding.rvMakes.visibility = View.VISIBLE
         binding.progress.visibility = View.INVISIBLE

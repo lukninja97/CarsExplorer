@@ -10,8 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lukninja.carsexplorer.databinding.FragmentModelsListBinding
-import com.lukninja.carsexplorer.service.model.Make
-import com.lukninja.carsexplorer.service.model.Model
 import com.lukninja.carsexplorer.service.model.Models
 import com.lukninja.carsexplorer.service.util.ApiResult
 import com.lukninja.carsexplorer.view.adapter.ModelAdapter
