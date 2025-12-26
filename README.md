@@ -1,4 +1,4 @@
-# 🚗 CarsExplorer
+<img width="122" height="130" alt="image" src="https://github.com/user-attachments/assets/f8262c4f-da00-4ca8-bcc4-f773b03202c0" />
 
 ## Descrição
 
@@ -49,10 +49,20 @@ CarsExplorer é um aplicativo Android simples que permite aos usuários explorar
 
 ## Screenshots
 
+### SplashScreen
+<img width="270" height="600" alt="image" src="https://github.com/user-attachments/assets/a07b2bd0-8bce-4f14-b98e-b3b8fa6f9efa" />
+
 ### Lista de Marcas
+<img width="270" height="600" alt="image" src="https://github.com/user-attachments/assets/446b5bbf-479c-401d-84bf-ffd7b2f208e7" />
 
 ### Lista de Fabricantes
+<img width="270" height="600" alt="image" src="https://github.com/user-attachments/assets/2a786072-d6ef-4a23-a0db-54bd8d6273f0" />
 
 ### Detalhes do fabricante
+<img width="270" height="600" alt="image" src="https://github.com/user-attachments/assets/858f7758-fcd1-4198-a9d5-e61309f0a31f" />
+
+### Tela de aviso
+<img width="270" height="600" alt="image" src="https://github.com/user-attachments/assets/656620ef-1f83-4219-a8c0-35ee437bcfd5" />
+
 
 ---
