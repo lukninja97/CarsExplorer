@@ -56,8 +56,7 @@ class MakesListFragment : Fragment() {
     }
 
     private fun refreshList() {
-        binding.rvMakes.visibility = View.INVISIBLE
-        binding.progress.visibility = View.VISIBLE
+        showLoading()
         viewModel.load()
     }
 
@@ -81,30 +80,33 @@ class MakesListFragment : Fragment() {
             recycler.context,
             DividerItemDecoration.VERTICAL
         )
-
         recycler.addItemDecoration(divider)
-
-
         recycler.adapter = adapter
     }
 
     private fun showLoading() {
         binding.progress.visibility = View.VISIBLE
         binding.rvMakes.visibility = View.INVISIBLE
+        binding.msgEmpty.visibility = View.GONE
+    }
+
+    private fun hideLoading() {
+        binding.rvMakes.visibility = View.VISIBLE
+        binding.progress.visibility = View.INVISIBLE
+        binding.msgEmpty.visibility = View.GONE
+        binding.swipeRefresh.isRefreshing = false
     }
 
     private fun showMakes(makes: List<MakeEntity>) {
         adapter.updateMakes(makes)
-        binding.rvMakes.visibility = View.VISIBLE
-        binding.progress.visibility = View.INVISIBLE
-        binding.swipeRefresh.isRefreshing = false
-//        binding.imgError.visibility = View.GONE
-//        binding.tvError.visibility = View.GONE
+        hideLoading()
     }
 
     private fun showError(msg: String, e: Throwable?) {
         Log.e("erro", msg, e)
+        binding.msgEmpty.visibility = View.VISIBLE
         binding.progress.visibility = View.INVISIBLE
+        binding.swipeRefresh.isRefreshing = false
         Toast.makeText(requireContext(), "Sem Marcas, tente novamente com uma conexão de internet", Toast.LENGTH_SHORT).show()
     }
 

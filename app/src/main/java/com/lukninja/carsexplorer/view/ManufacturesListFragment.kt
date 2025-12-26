@@ -65,9 +65,7 @@ class ManufacturesListFragment : Fragment() {
     }
 
     private fun refreshList() {
-        binding.rvModels.visibility = View.INVISIBLE
-        binding.cardManufacturer.visibility = View.INVISIBLE
-        binding.progress.visibility = View.VISIBLE
+        showLoading()
         viewModel.loadManufactures(make)
     }
 
@@ -102,23 +100,26 @@ class ManufacturesListFragment : Fragment() {
         binding.cardManufacturer.visibility = View.INVISIBLE
     }
 
-    private fun showManufactures(manufactures: List<ManufacturerEntity>) {
+    private fun hideLoading() {
+        binding.progress.visibility = View.INVISIBLE
+        binding.rvModels.visibility = View.VISIBLE
+        binding.cardManufacturer.visibility = View.VISIBLE
+        binding.msgEmpty.visibility = View.GONE
+        binding.swipeRefresh.isRefreshing = false
+    }
 
+    private fun showManufactures(manufactures: List<ManufacturerEntity>) {
         adapter.updateManufactures(manufactures)
 
         binding.tvMake.text = make
         binding.tvQuantity.text = "${manufactures.size} fabricantes"
 
-        binding.cardManufacturer.visibility = View.VISIBLE
-        binding.rvModels.visibility = View.VISIBLE
-        binding.progress.visibility = View.INVISIBLE
-        binding.swipeRefresh.isRefreshing = false
-//        binding.imgError.visibility = View.GONE
-//        binding.tvError.visibility = View.GONE
+        hideLoading()
     }
 
     private fun showError(msg: String, e: Throwable?) {
         Log.e("erro", msg, e)
+        binding.msgEmpty.visibility = View.VISIBLE
         binding.progress.visibility = View.INVISIBLE
         binding.swipeRefresh.isRefreshing = false
         Toast.makeText(requireContext(), "tente novamente com uma conexão de internet", Toast.LENGTH_SHORT).show()

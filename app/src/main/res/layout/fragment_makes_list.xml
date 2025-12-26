@@ -19,6 +19,29 @@
             tools:listitem="@layout/list_item_make" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <LinearLayout
+        android:id="@+id/msgEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="4dp"
+            android:text="Você está offline. Conecte-se à internet para carregar os dados."
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+
+        <ImageView
+            android:id="@+id/imgErro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/empty" />
+    </LinearLayout>
+
     <ProgressBar
         android:id="@+id/progress"
         android:layout_width="wrap_content"

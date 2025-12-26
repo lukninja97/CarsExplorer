@@ -93,7 +93,19 @@ class ManufacturerFragment : Fragment() {
 
     private fun showLoading() {
         binding.progress.visibility = View.VISIBLE
-        binding.cardManufacturer.visibility = View.INVISIBLE
+//        binding.tvManufacturer.visibility = View.INVISIBLE
+//        binding.cardManufacturer.visibility = View.INVISIBLE
+//        binding.tvModels.visibility = View.INVISIBLE
+//        binding.cardModels.visibility = View.INVISIBLE
+    }
+
+    private fun hideLoading() {
+        binding.progress.visibility = View.INVISIBLE
+//        binding.tvManufacturer.visibility = View.VISIBLE
+//        binding.cardManufacturer.visibility = View.VISIBLE
+//        binding.tvModels.visibility = View.VISIBLE
+        binding.cardModels.visibility = View.VISIBLE
+        binding.msgEmpty.visibility = View.GONE
     }
 
     private fun showManufacturer(manufacturer: ManufacturerEntity) {
@@ -105,26 +117,22 @@ class ManufacturerFragment : Fragment() {
         binding.tvAdress.text = manufacturer.address
         binding.tvPrincipal.text = manufacturer.principalFirstName
         binding.tvPrincipalPosition.text = manufacturer.principalPosition
-
         binding.tvSubmited.text = manufacturer.submittedName
         binding.tvSubmitedPosition.text = manufacturer.submittedPosition
-
-        binding.cardManufacturer.visibility = View.VISIBLE
-        binding.progress.visibility = View.INVISIBLE
 
         viewModelModels.loadModels(make)
     }
 
     private fun showModels(models: List<ModelEntity>) {
         adapterModels.updateModels(models)
-        binding.rvModels.visibility = View.VISIBLE
-        binding.progress.visibility = View.INVISIBLE
-        binding.cardManufacturer.visibility = View.VISIBLE
+
+        hideLoading()
     }
 
     private fun showError(msg: String, e: Throwable?) {
         Log.e("erro", msg, e)
         binding.progress.visibility = View.INVISIBLE
+        binding.msgEmpty.visibility = View.VISIBLE
         Toast.makeText(requireContext(), "tente novamente com uma conexão de internet", Toast.LENGTH_SHORT).show()
     }
 
