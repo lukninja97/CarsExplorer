@@ -4,19 +4,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lukninja.carsexplorer.databinding.ListItemManufacturerBinding
-import com.lukninja.carsexplorer.service.model.Manufacturer
+import com.lukninja.carsexplorer.service.model.entity.ManufacturerEntity
 
 
 class ManufacturerAdapter(
-    private val values: List<Manufacturer>,
-    private val clickListListener: (Manufacturer) -> Unit
+    private val clickListListener: (ManufacturerEntity) -> Unit
 ) : RecyclerView.Adapter<ManufacturerAdapter.ManufacturerViewHolder>() {
 
-    private var manufactures: List<Manufacturer> = listOf()
+    private var manufactures: List<ManufacturerEntity> = listOf()
 
     class ManufacturerViewHolder(private val binding: ListItemManufacturerBinding):
         RecyclerView.ViewHolder(binding.root) {
-            fun bind(manufacturer: Manufacturer, clickListListener: (Manufacturer) -> Unit) {
+            fun bind(manufacturer: ManufacturerEntity, clickListListener: (ManufacturerEntity) -> Unit) {
                 binding.tvName.text = manufacturer.manufacturerCommonName ?: manufacturer.manufacturerName
                 binding.tvLocalization.text = manufacturer.city
                 binding.tvCountry.text = manufacturer.country
@@ -39,7 +38,7 @@ class ManufacturerAdapter(
 
     override fun getItemCount(): Int = manufactures.count()
 
-    fun updateManufactures(list: List<Manufacturer>){
+    fun updateManufactures(list: List<ManufacturerEntity>){
         manufactures = list
         notifyDataSetChanged()
     }

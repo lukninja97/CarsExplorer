@@ -1,25 +1,31 @@
 package com.lukninja.carsexplorer.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lukninja.carsexplorer.service.model.Manufacturer
-import com.lukninja.carsexplorer.service.model.Manufactures
-import com.lukninja.carsexplorer.service.model.Models
+import com.lukninja.carsexplorer.service.model.entity.ManufacturerEntity
 import com.lukninja.carsexplorer.service.repository.ManufacturerRepository
+import com.lukninja.carsexplorer.service.repository.local.DatabaseProvider
 import com.lukninja.carsexplorer.service.util.ApiResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ManufacturerViewModel : ViewModel() {
-    private val repository = ManufacturerRepository()
+class ManufacturerViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val mManufacturerList = MutableLiveData<ApiResult<Manufactures>>()
-    val manufacturerList: LiveData<ApiResult<Manufactures>> = mManufacturerList
+    private val repository: ManufacturerRepository
 
-    private val mManufacturer = MutableLiveData<ApiResult<Manufacturer>>()
-    val manufacturer: LiveData<ApiResult<Manufacturer>> = mManufacturer
+    init {
+        val db = DatabaseProvider.getDatabase(application.applicationContext)
+        repository = ManufacturerRepository(db.ManufacturerDao())
+    }
+
+    private val mManufacturerList = MutableLiveData<ApiResult<List<ManufacturerEntity>>>()
+    val manufacturerList: LiveData<ApiResult<List<ManufacturerEntity>>> = mManufacturerList
+
+    private val mManufacturer = MutableLiveData<ApiResult<ManufacturerEntity>>()
+    val manufacturer: LiveData<ApiResult<ManufacturerEntity>> = mManufacturer
 
     fun loadManufactures(make: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -32,13 +38,13 @@ class ManufacturerViewModel : ViewModel() {
         }
     }
 
-    fun getManufacturer(make: String, manufacturerId: Int) {
+    fun getManufacturer(manufacturerId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 mManufacturer.postValue(ApiResult.Loading)
-                mManufacturer.postValue(repository.getManufacturer(make, manufacturerId))
+                mManufacturer.postValue(repository.getManufacturer(manufacturerId))
             } catch (e: Exception){
-                mManufacturer.postValue(ApiResult.Error("Falha ao carregar os dados", e))
+                mManufacturer.postValue(ApiResult.Error("Falha ao carregar o dado", e))
             }
         }
     }

@@ -6,16 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lukninja.carsexplorer.R
 import com.lukninja.carsexplorer.databinding.FragmentManufacturesListBinding
-import com.lukninja.carsexplorer.service.model.Manufactures
+import com.lukninja.carsexplorer.service.model.entity.ManufacturerEntity
 import com.lukninja.carsexplorer.service.util.ApiResult
 import com.lukninja.carsexplorer.view.adapter.ManufacturerAdapter
-import com.lukninja.carsexplorer.view.adapter.ModelAdapter
 import com.lukninja.carsexplorer.viewmodel.ManufacturerViewModel
 import kotlin.getValue
 
@@ -46,10 +46,10 @@ class ManufacturesListFragment : Fragment() {
             viewModel.loadManufactures(make)
         }
 
-        adapter = ManufacturerAdapter(mutableListOf()) { manufacturer ->
+        adapter = ManufacturerAdapter { manufacturer ->
             Log.e("manufacturer", manufacturer.toString())
             val makeBundle = Bundle()
-            makeBundle.putInt("manufacturerId", manufacturer.manufacturerId ?: 0)
+            makeBundle.putInt("manufacturerId", manufacturer.manufacturerId)
             makeBundle.putString("make", make)
             arguments = makeBundle
             findNavController().navigate(R.id.manufacturerFragment, arguments)
@@ -66,6 +66,7 @@ class ManufacturesListFragment : Fragment() {
 
     private fun refreshList() {
         binding.rvModels.visibility = View.INVISIBLE
+        binding.cardManufacturer.visibility = View.INVISIBLE
         binding.progress.visibility = View.VISIBLE
         viewModel.loadManufactures(make)
     }
@@ -77,7 +78,7 @@ class ManufacturesListFragment : Fragment() {
 
                 is ApiResult.Success -> showManufactures(it.data)
 
-                is ApiResult.Error -> showError(it.message)
+                is ApiResult.Error -> showError(it.message, it.throwable)
             }
         }
     }
@@ -98,12 +99,17 @@ class ManufacturesListFragment : Fragment() {
     private fun showLoading() {
         binding.progress.visibility = View.VISIBLE
         binding.rvModels.visibility = View.INVISIBLE
+        binding.cardManufacturer.visibility = View.INVISIBLE
     }
 
-    private fun showManufactures(manufactures: Manufactures) {
+    private fun showManufactures(manufactures: List<ManufacturerEntity>) {
+
+        adapter.updateManufactures(manufactures)
+
         binding.tvMake.text = make
-        binding.tvQuantity.text = "${manufactures.count} fabricantes"
-        adapter.updateManufactures(manufactures.manufactures ?: listOf())
+        binding.tvQuantity.text = "${manufactures.size} fabricantes"
+
+        binding.cardManufacturer.visibility = View.VISIBLE
         binding.rvModels.visibility = View.VISIBLE
         binding.progress.visibility = View.INVISIBLE
         binding.swipeRefresh.isRefreshing = false
@@ -111,8 +117,11 @@ class ManufacturesListFragment : Fragment() {
 //        binding.tvError.visibility = View.GONE
     }
 
-    private fun showError(msg: String) {
-        Log.e("erro", msg)
+    private fun showError(msg: String, e: Throwable?) {
+        Log.e("erro", msg, e)
+        binding.progress.visibility = View.INVISIBLE
+        binding.swipeRefresh.isRefreshing = false
+        Toast.makeText(requireContext(), "tente novamente com uma conexão de internet", Toast.LENGTH_SHORT).show()
     }
 
 }

@@ -6,12 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lukninja.carsexplorer.databinding.FragmentManufacturerBinding
-import com.lukninja.carsexplorer.service.model.Manufacturer
-import com.lukninja.carsexplorer.service.model.Models
+import com.lukninja.carsexplorer.service.model.dto.ModelsDto
+import com.lukninja.carsexplorer.service.model.entity.ManufacturerEntity
+import com.lukninja.carsexplorer.service.model.entity.ModelEntity
 import com.lukninja.carsexplorer.service.util.ApiResult
 import com.lukninja.carsexplorer.view.adapter.ModelAdapter
 import com.lukninja.carsexplorer.viewmodel.ManufacturerViewModel
@@ -45,12 +47,10 @@ class ManufacturerFragment : Fragment() {
         arguments?.let {
             make = it.getString("make") ?: ""
             val manufacturerId = it.getInt("manufacturerId")
-            viewModel.getManufacturer(make, manufacturerId)
+            viewModel.getManufacturer(manufacturerId)
         }
 
-        adapterModels = ModelAdapter(mutableListOf()) {
-
-        }
+        adapterModels = ModelAdapter()
 
         setupRecycler()
         observers()
@@ -76,7 +76,7 @@ class ManufacturerFragment : Fragment() {
 
                 is ApiResult.Success -> showManufacturer(it.data)
 
-                is ApiResult.Error -> showError(it.message)
+                is ApiResult.Error -> showError(it.message, it.throwable)
             }
         }
 
@@ -86,7 +86,7 @@ class ManufacturerFragment : Fragment() {
 
                 is ApiResult.Success -> showModels(it.data)
 
-                is ApiResult.Error -> showError(it.message)
+                is ApiResult.Error -> showError(it.message, it.throwable)
             }
         }
     }
@@ -96,13 +96,13 @@ class ManufacturerFragment : Fragment() {
         binding.cardManufacturer.visibility = View.INVISIBLE
     }
 
-    private fun showManufacturer(manufacturer: Manufacturer) {
+    private fun showManufacturer(manufacturer: ManufacturerEntity) {
         binding.tvMake.text = make
-        binding.tvManufacturer.text = manufacturer.manufacturerCommonName ?: "-"
-        binding.tvName.text = manufacturer.manufacturerName ?: "-"
-        binding.tvEmail.text = manufacturer.contactEmail ?: "-"
-        binding.tvPhone.text = manufacturer.contactPhone ?: "-"
-        binding.tvAdress.text = manufacturer.address ?: "-"
+        binding.tvManufacturer.text = manufacturer.manufacturerCommonName
+        binding.tvName.text = manufacturer.manufacturerName
+        binding.tvEmail.text = manufacturer.contactEmail
+        binding.tvPhone.text = manufacturer.contactPhone
+        binding.tvAdress.text = manufacturer.address
         binding.tvPrincipal.text = manufacturer.principalFirstName
         binding.tvPrincipalPosition.text = manufacturer.principalPosition
 
@@ -115,15 +115,17 @@ class ManufacturerFragment : Fragment() {
         viewModelModels.loadModels(make)
     }
 
-    private fun showModels(models: Models) {
-        adapterModels.updateModels(models.models ?: listOf())
+    private fun showModels(models: List<ModelEntity>) {
+        adapterModels.updateModels(models)
         binding.rvModels.visibility = View.VISIBLE
         binding.progress.visibility = View.INVISIBLE
         binding.cardManufacturer.visibility = View.VISIBLE
     }
 
-    private fun showError(msg: String) {
-        Log.e("erro", msg)
+    private fun showError(msg: String, e: Throwable?) {
+        Log.e("erro", msg, e)
+        binding.progress.visibility = View.INVISIBLE
+        Toast.makeText(requireContext(), "tente novamente com uma conexão de internet", Toast.LENGTH_SHORT).show()
     }
 
 }

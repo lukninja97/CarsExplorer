@@ -1,44 +1,60 @@
 package com.lukninja.carsexplorer.service.repository
 
 
-import com.lukninja.carsexplorer.service.model.Manufacturer
-import com.lukninja.carsexplorer.service.model.Manufactures
-import com.lukninja.carsexplorer.service.model.Models
+import android.util.Log
+import com.lukninja.carsexplorer.service.model.dto.ManufacturerDto
+import com.lukninja.carsexplorer.service.model.dto.toEntity
+import com.lukninja.carsexplorer.service.model.entity.ManufacturerEntity
+import com.lukninja.carsexplorer.service.repository.local.ManufacturerDao
 import com.lukninja.carsexplorer.service.repository.remote.ManufacturerService
-import com.lukninja.carsexplorer.service.repository.remote.ModelService
 import com.lukninja.carsexplorer.service.repository.remote.RetrofitClient
 import com.lukninja.carsexplorer.service.util.ApiResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class ManufacturerRepository {
+class ManufacturerRepository(private val manufacturerDao: ManufacturerDao)  {
     private val mRemote = RetrofitClient.createService(ManufacturerService::class.java)
 
-    suspend fun getManufactures(make: String): ApiResult<Manufactures> {
+    suspend fun getManufactures(make: String): ApiResult<List<ManufacturerEntity>> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = mRemote.getManufactures(make)
+                val response = mRemote.getManufactures(make).body()?.manufactures
 
-                ApiResult.Success(response.body() ?: Manufactures())
+                val entities = response?.map {
+                    it.toEntity(it.manufacturerId, make)
+                } ?: run {
+                    listOf()
+                }
+
+                if (entities.isNotEmpty())
+                    manufacturerDao.insertAll(entities)
+
+                Log.i("Manufactures", "com internet")
+
+                ApiResult.Success(entities)
             } catch (e: Exception) {
-                ApiResult.Error("Falha ao carregar fábricas", e)
+                val entities = manufacturerDao.getManufacturesByMake(make)
+                Log.i("Manufactures", "sem internet")
+
+                if (entities.isEmpty()) {
+                    ApiResult.Error("Falha ao carregar fábricas", e)
+                } else {
+                    ApiResult.Success(entities)
+                }
             }
         }
     }
 
-    suspend fun getManufacturer(make: String, manufacturerId: Int): ApiResult<Manufacturer> {
+    suspend fun getManufacturer(manufacturerId: Int): ApiResult<ManufacturerEntity> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = mRemote.getManufactures(make)
+                val manufacturer = manufacturerDao.getManufacturerById(manufacturerId)
 
-                val manufacturer = response.body()?.manufactures?.find { it.manufacturerId == manufacturerId }
-
-                ApiResult.Success(manufacturer ?: Manufacturer())
+                ApiResult.Success(manufacturer)
             } catch (e: Exception) {
-                ApiResult.Error("Falha ao carregar fábricas", e)
+                ApiResult.Error("Falha ao carregar fábrica", e)
             }
         }
     }
-
 
 }
