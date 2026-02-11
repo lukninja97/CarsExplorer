@@ -16,6 +16,7 @@ CarsExplorer é um aplicativo Android simples que permite aos usuários explorar
 
 *   **Linguagem:** [Kotlin](https://kotlinlang.org/)
 *   **Arquitetura:** MVVM (Model-View-ViewModel)
+*   **API:** [NHTSA](https://vpic.nhtsa.dot.gov/api/)
 *   **Injeção de Dependência:** [Hilt](https://dagger.dev/hilt/)
 *   **Componentes do Jetpack:**
     *   [Navigation Component](https://developer.android.com/guide/navigation/navigation-getting-started) - Para navegação entre as telas.
