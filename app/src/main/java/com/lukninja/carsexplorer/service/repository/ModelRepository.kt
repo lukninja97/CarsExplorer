@@ -17,9 +17,9 @@ import javax.inject.Inject
 class ModelRepository @Inject constructor (
     private val api: CarsExplorerApi,
     private val modelDao: ModelDao
-) {
+) : IModelRepository {
 
-    suspend fun getModels(make: String): ApiResult<List<ModelEntity>> {
+    override suspend fun getModels(make: String): ApiResult<List<ModelEntity>> {
         return withContext(Dispatchers.IO) {
             try {
                 val response = api.getModels(make).body()?.models

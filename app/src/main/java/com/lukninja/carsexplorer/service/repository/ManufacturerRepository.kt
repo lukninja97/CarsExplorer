@@ -15,9 +15,9 @@ import javax.inject.Inject
 class ManufacturerRepository @Inject constructor(
     private val api: CarsExplorerApi,
     private val manufacturerDao: ManufacturerDao
-) {
+) : IManufacturerRepository {
 
-    suspend fun getManufactures(make: String): ApiResult<List<ManufacturerEntity>> {
+    override suspend fun getManufactures(make: String): ApiResult<List<ManufacturerEntity>> {
         return withContext(Dispatchers.IO) {
             try {
                 val response = api.getManufactures(make).body()?.manufactures
@@ -47,7 +47,7 @@ class ManufacturerRepository @Inject constructor(
         }
     }
 
-    suspend fun getManufacturer(manufacturerId: Int): ApiResult<ManufacturerEntity> {
+    override suspend fun getManufacturer(manufacturerId: Int): ApiResult<ManufacturerEntity> {
         return withContext(Dispatchers.IO) {
             try {
                 val manufacturer = manufacturerDao.getManufacturerById(manufacturerId)

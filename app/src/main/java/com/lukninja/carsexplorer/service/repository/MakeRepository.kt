@@ -14,9 +14,9 @@ import javax.inject.Inject
 class MakeRepository @Inject constructor (
     private val api: CarsExplorerApi,
     private val makeDao: MakeDao,
-) {
+): IMakeRepository {
 
-    suspend fun getMakes(): ApiResult<List<MakeEntity>> {
+    override suspend fun getMakes(): ApiResult<List<MakeEntity>> {
         return withContext(Dispatchers.IO) {
             try {
                 val response = api.getMakesForVehicleType().body()?.makes

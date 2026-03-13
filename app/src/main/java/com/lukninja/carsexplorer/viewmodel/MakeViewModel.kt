@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lukninja.carsexplorer.service.model.entity.MakeEntity
-import com.lukninja.carsexplorer.service.repository.MakeRepository
+import com.lukninja.carsexplorer.service.repository.IMakeRepository
 import com.lukninja.carsexplorer.service.util.ApiResult
 import com.lukninja.carsexplorer.util.safeApiCall
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MakeViewModel @Inject constructor (
-    private val repository: MakeRepository
+    private val repository: IMakeRepository
 ): ViewModel() {
 
     private val _makeList = MutableLiveData<ApiResult<List<MakeEntity>>>()

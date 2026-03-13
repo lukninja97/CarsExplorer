@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lukninja.carsexplorer.service.model.entity.ManufacturerEntity
+import com.lukninja.carsexplorer.service.repository.IManufacturerRepository
 import com.lukninja.carsexplorer.service.repository.ManufacturerRepository
 import com.lukninja.carsexplorer.service.util.ApiResult
 import com.lukninja.carsexplorer.util.safeApiCall
@@ -15,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ManufacturerViewModel @Inject constructor(
-    private val repository: ManufacturerRepository
+    private val repository: IManufacturerRepository
 ) : ViewModel() {
 
     private val _manufacturerList = MutableLiveData<ApiResult<List<ManufacturerEntity>>>()
