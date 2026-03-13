@@ -18,17 +18,17 @@ class MakeViewModel @Inject constructor (
     private val repository: MakeRepository
 ): ViewModel() {
 
-    private val mMakeList = MutableLiveData<ApiResult<List<MakeEntity>>>()
-    val makeList: LiveData<ApiResult<List<MakeEntity>>> = mMakeList
+    private val _makeList = MutableLiveData<ApiResult<List<MakeEntity>>>()
+    val makeList: LiveData<ApiResult<List<MakeEntity>>> = _makeList
 
 
     fun load() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                mMakeList.postValue(ApiResult.Loading)
-                mMakeList.postValue(repository.getMakes())
+                _makeList.postValue(ApiResult.Loading)
+                _makeList.postValue(repository.getMakes())
             } catch (e: Exception){
-                mMakeList.postValue(ApiResult.Error("Falha ao carregar os dados", e))
+                _makeList.postValue(ApiResult.Error("Falha ao carregar os dados", e))
             }
         }
     }
