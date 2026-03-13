@@ -10,7 +10,6 @@ import com.lukninja.carsexplorer.service.repository.IMakeRepository
 import com.lukninja.carsexplorer.service.util.ApiResult
 import com.lukninja.carsexplorer.util.safeApiCall
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,7 +23,7 @@ class MakeViewModel @Inject constructor (
 
 
     fun load() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             _makeList.safeApiCall { repository.getMakes() }
         }
     }
