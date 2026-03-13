@@ -1,6 +1,7 @@
 package com.lukninja.carsexplorer.di
 
 import com.lukninja.carsexplorer.service.repository.remote.CarsExplorerApi
+import com.lukninja.carsexplorer.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,7 +24,7 @@ object NetworkModule {
     @Singleton
     fun provideRetrofit(client: OkHttpClient): Retrofit =
         Retrofit.Builder()
-            .baseUrl("https://vpic.nhtsa.dot.gov/")
+            .baseUrl(Constants.BASE_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
