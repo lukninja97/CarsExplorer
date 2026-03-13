@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.lukninja.carsexplorer.service.model.entity.ModelEntity
 import com.lukninja.carsexplorer.service.repository.ModelRepository
 import com.lukninja.carsexplorer.service.util.ApiResult
+import com.lukninja.carsexplorer.util.safeApiCall
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,14 +21,10 @@ class ModelViewModel@Inject constructor (
     private val _modelList = MutableLiveData<ApiResult<List<ModelEntity>>>()
     val modelList: LiveData<ApiResult<List<ModelEntity>>> = _modelList
 
+
     fun loadModels(make: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                _modelList.postValue(ApiResult.Loading)
-                _modelList.postValue(repository.getModels(make))
-            } catch (e: Exception){
-                _modelList.postValue(ApiResult.Error("Falha ao carregar os dados", e))
-            }
+            _modelList.safeApiCall { repository.getModels(make) }
         }
     }
 }

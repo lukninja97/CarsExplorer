@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.lukninja.carsexplorer.service.model.entity.ManufacturerEntity
 import com.lukninja.carsexplorer.service.repository.ManufacturerRepository
 import com.lukninja.carsexplorer.service.util.ApiResult
+import com.lukninja.carsexplorer.util.safeApiCall
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,25 +24,16 @@ class ManufacturerViewModel @Inject constructor(
     private val _manufacturer = MutableLiveData<ApiResult<ManufacturerEntity>>()
     val manufacturer: LiveData<ApiResult<ManufacturerEntity>> = _manufacturer
 
+
     fun loadManufactures(make: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                _manufacturerList.postValue(ApiResult.Loading)
-                _manufacturerList.postValue(repository.getManufactures(make))
-            } catch (e: Exception) {
-                _manufacturerList.postValue(ApiResult.Error("Falha ao carregar os dados", e))
-            }
+            _manufacturerList.safeApiCall { repository.getManufactures(make) }
         }
     }
 
     fun getManufacturer(manufacturerId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                _manufacturer.postValue(ApiResult.Loading)
-                _manufacturer.postValue(repository.getManufacturer(manufacturerId))
-            } catch (e: Exception) {
-                _manufacturer.postValue(ApiResult.Error("Falha ao carregar o dado", e))
-            }
+            _manufacturer.safeApiCall { repository.getManufacturer(manufacturerId) }
         }
     }
 
