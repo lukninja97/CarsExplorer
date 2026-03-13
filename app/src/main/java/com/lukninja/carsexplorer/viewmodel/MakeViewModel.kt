@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.lukninja.carsexplorer.service.model.entity.MakeEntity
 import com.lukninja.carsexplorer.service.repository.MakeRepository
 import com.lukninja.carsexplorer.service.util.ApiResult
+import com.lukninja.carsexplorer.util.safeApiCall
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,18 +19,13 @@ class MakeViewModel @Inject constructor (
     private val repository: MakeRepository
 ): ViewModel() {
 
-    private val mMakeList = MutableLiveData<ApiResult<List<MakeEntity>>>()
-    val makeList: LiveData<ApiResult<List<MakeEntity>>> = mMakeList
+    private val _makeList = MutableLiveData<ApiResult<List<MakeEntity>>>()
+    val makeList: LiveData<ApiResult<List<MakeEntity>>> = _makeList
 
 
     fun load() {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                mMakeList.postValue(ApiResult.Loading)
-                mMakeList.postValue(repository.getMakes())
-            } catch (e: Exception){
-                mMakeList.postValue(ApiResult.Error("Falha ao carregar os dados", e))
-            }
+            _makeList.safeApiCall { repository.getMakes() }
         }
     }
 }
